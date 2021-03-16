@@ -7,6 +7,7 @@
 
 #import "ViewController.h"
 #import "CameraController.h"
+#import "FrontCameraController.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -14,7 +15,7 @@
 @interface ViewController ()
 
 @property (nonatomic,strong)UIButton *cameraBtn;
-
+@property (nonatomic,strong)UIButton *frontCameraBtn;
 @end
 
 @implementation ViewController
@@ -33,16 +34,21 @@
 
 -(void)addMySubViews{
     [self.view addSubview:self.cameraBtn];
+    [self.view addSubview:self.frontCameraBtn];
 }
 -(void)addMyContraints{
     self.cameraBtn.frame = CGRectMake(20, ScreenHeight-90, ScreenWidth-40, 40);
+    self.frontCameraBtn.frame = CGRectMake(20, ScreenHeight-140, ScreenWidth-40, 40);
 }
 
 #pragma mark -- click
--(void)camreaClick:(UIButton *)btn{
+-(void)cameraClick:(UIButton *)btn{
     [self.navigationController pushViewController:[CameraController new] animated:YES];
 }
+-(void)frontCameraClick:(UIButton *)btn{
+    [self.navigationController pushViewController:[FrontCameraController new] animated:YES];
 
+}
 #pragma mark -- lazy load
 - (UIButton *)cameraBtn{
     if (_cameraBtn == nil) {
@@ -53,8 +59,21 @@
         [_cameraBtn setTitle:@"后置相机" forState:UIControlStateNormal];
         _cameraBtn.titleLabel.textColor = [UIColor redColor];
         _cameraBtn.backgroundColor = [UIColor greenColor];
-        [_cameraBtn addTarget:self action:@selector(camreaClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_cameraBtn addTarget:self action:@selector(cameraClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cameraBtn;
+}
+- (UIButton *)frontCameraBtn{
+    if (_frontCameraBtn == nil) {
+        _frontCameraBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _frontCameraBtn.layer.borderWidth = 1;
+        _frontCameraBtn.layer.borderColor = [[UIColor orangeColor] CGColor];
+        _frontCameraBtn.layer.cornerRadius = 5;
+        [_frontCameraBtn setTitle:@"前置相机" forState:UIControlStateNormal];
+        _frontCameraBtn.titleLabel.textColor = [UIColor redColor];
+        _frontCameraBtn.backgroundColor = [UIColor greenColor];
+        [_frontCameraBtn addTarget:self action:@selector(frontCameraClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _frontCameraBtn;
 }
 @end
